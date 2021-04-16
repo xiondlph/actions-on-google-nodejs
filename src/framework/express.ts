@@ -19,12 +19,12 @@
  */
 
 import { Framework, StandardHandler } from './framework'
-import { Request, Response } from 'express'
-import * as common from '../common'
+import { Request, Response, NextFunction } from 'express'
+// import * as common from '../common'
 
 export interface ExpressHandler {
   /** @public */
-  (request: Request, response: Response): void
+  (request: Request, response: Response, next: NextFunction): void
 }
 
 export interface ExpressMetadata {
@@ -33,15 +33,18 @@ export interface ExpressMetadata {
 
   /** @public */
   response: Response
+
+  next: NextFunction
 }
 
 /** @hidden */
 export class Express implements Framework<ExpressHandler> {
   handle(standard: StandardHandler) {
-    return (request: Request, response: Response) => {
+    return (request: Request, response: Response, next: NextFunction) => {
       const metadata: ExpressMetadata = {
         request,
         response,
+        next,
       }
       standard(request.body, request.headers, { express: metadata })
       .then(({ status, body, headers }) => {
@@ -53,8 +56,9 @@ export class Express implements Framework<ExpressHandler> {
         response.status(status).send(body)
       })
       .catch((e: Error) => {
-        common.error(e.stack || e)
-        response.status(500).send({ error: e.message || e })
+        // common.error(e.stack || e)
+        // response.status(500).send({ error: e.message || e })
+        next(e)
       })
     }
   }

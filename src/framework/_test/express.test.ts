@@ -91,7 +91,7 @@ test('handles valid body fine', async t => {
       return this
     },
     // tslint:disable-next-line:no-any mocking response
-  } as any)
+  } as any, () => {})
   await promise
   t.is(receivedBody, expectedBody)
   t.is(receivedStatus, expectedStatus)
@@ -133,7 +133,7 @@ test.serial('handles error', async t => {
       return this
     },
     // tslint:disable-next-line:no-any mocking response
-  } as any)
+  } as any, () => {})
   // tslint:disable-next-line:no-any mocking promise
   await (promise as any).catch(() => {})
   t.true(stub.called)
@@ -178,7 +178,7 @@ test.serial('handles string error', async t => {
       return this
     },
     // tslint:disable-next-line:no-any mocking response
-  } as any)
+  } as any, () => {})
   // tslint:disable-next-line:no-any mocking promise
   await (promise as any).catch(() => {})
   t.true(stub.called)
@@ -219,7 +219,7 @@ test('handles valid headers fine', async t => {
       return this
     },
     // tslint:disable-next-line:no-any mocking response
-  } as any)
+  } as any, () => {})
   await promise
   t.is(receivedStatus, expectedStatus)
   t.deepEqual(receivedHeaders, expectedHeaders)
@@ -256,6 +256,8 @@ test('sends back metadata', async t => {
       return this
     },
   }
+
+  const next: () => void = () => {}
   t.context.express.handle((body, headers, metadata) => {
     t.is(metadata!.express!.request, request)
     t.is(metadata!.express!.response, response)
@@ -266,7 +268,7 @@ test('sends back metadata', async t => {
       status: expectedStatus,
     })
     return promise
-  })(request, response)
+  })(request, response, next)
   await promise
   t.is(receivedBody, expectedBody)
   t.is(receivedStatus, expectedStatus)
