@@ -1,5 +1,5 @@
 {
-  "name": "actions-on-google",
+  "name": "@vismart/actions-on-google",
   "description": "Actions on Google Client Library for Node.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,12 +28,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions-on-google/actions-on-google-nodejs.git"
+    "url": "git+https://github.com/xiondlph/actions-on-google-nodejs.git"
   },
   "bugs": {
-    "url": "https://github.com/actions-on-google/actions-on-google-nodejs/issues"
+    "url": "https://github.com/xiondlph/actions-on-google-nodejs/issues"
   },
-  "homepage": "https://github.com/actions-on-google/actions-on-google-nodejs#readme",
+  "homepage": "https://github.com/xiondlph/actions-on-google-nodejs#readme",
   "keywords": [
     "google",
     "google actions",
